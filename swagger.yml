@@ -1,0 +1,113 @@
+swagger: "2.0"
+info:
+  description: Product data management microservice for Queen project
+  title: Product Data Microservice
+  version: 1.0.0
+schemes:
+- http
+paths:
+  /products:
+    get:
+      tags:
+        - products
+      operationId: findProducts
+      parameters:
+        - name: since
+          in: query
+          type: integer
+          format: int64
+        - name: limit
+          in: query
+          type: integer
+          format: int32
+          default: 20
+      responses:
+        200:
+          description: list products
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/product"
+        default:
+          description: generic error response
+          schema:
+            $ref: "#/definitions/error"
+    post:
+      tags:
+        - products
+      operationId: addOneProduct
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/product"
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: "#/definitions/product"
+        default:
+          description: error
+          schema:
+            $ref: "#/definitions/error"
+  /products/{id}:
+    parameters:
+      - type: integer
+        format: int64
+        name: id
+        in: path
+        required: true
+    put:
+      tags:
+        - products
+      operationId: updateOneProduct
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: "#/definitions/product"
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/product"
+        default:
+          description: error
+          schema:
+            $ref: "#/definitions/error"
+    delete:
+      tags:
+        - products
+      operationId: destroyOneProduct
+      responses:
+        204:
+          description: Deleted
+        default:
+          description: error
+          schema:
+            $ref: "#/definitions/error"
+definitions:
+  product:
+    type: object
+    required:
+      - description
+    properties:
+      id:
+        type: integer
+        format: int64
+        readOnly: true
+      description:
+        type: string
+        minLength: 1
+      completed:
+        type: boolean
+  error:
+    type: object
+    required:
+      - message
+    properties:
+      code:
+        type: integer
+        format: int64
+      message:
+        type: string
