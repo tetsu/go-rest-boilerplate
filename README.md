@@ -1,4 +1,4 @@
-# Queen Product Data Microservice
+# go-rest-boilerplate
 
 ## Tech Stack
 - Docker
@@ -8,6 +8,9 @@
 ## Instruction
 1. Install docker
 1. Clone this repository
+    ```
+    git clone git@github.com:tetsu/go-rest-boilerplate.git
+    ```
 1. Build Docker image
     ```
     docker-compose build
